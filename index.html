@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>One Question ❤️</title>
-
+  <meta charset="UTF-8">
+  <title>Special Question 💖</title>
   <style>
     body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      overflow: hidden;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
       text-align: center;
-      margin-top: 80px;
-      background: #fff0f5;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      margin-bottom: 20px;
     }
 
     button {
-      font-size: 22px;
-      padding: 12px 25px;
-      margin: 20px;
-      cursor: pointer;
-      border-radius: 10px;
+      padding: 10px 25px;
+      font-size: 16px;
       border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 10px;
+      position: relative;
     }
 
     #yesBtn {
@@ -36,37 +55,86 @@
     }
 
     img {
-      width: 320px;
-      border-radius: 20px;
+      width: 250px;
+      border-radius: 15px;
       margin-top: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.05) translateY(-10px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-50px);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
-
 <body>
 
-  <h2>One small question for you both ❤️</h2>
+  <div class="box">
+    <div id="question">
+      <h2>Do you know how special you both are to me? 💕</h2>
+      <button id="yesBtn" onclick="showSurprise()">Yes</button>
+      <button id="noBtn" onmouseover="moveNo()">No</button>
+    </div>
 
-  <button id="yesBtn" onclick="showSurprise()">Yes</button>
-  <button id="noBtn" onmouseover="moveNo()">No</button>
-
-  <div id="surprise">
-    <h1>Happy Anniversary 🥳🥳</h1>
-    <img src="photo.jpg" alt="Anniversary Photo">
-    <p>With lots of love ❤️</p>
+    <div id="surprise">
+      <h2>Happy Anniversary 🥳🥳</h2>
+      <img src="photo1.jpg" alt="Anniversary Image">
+      <p>With lots of love ❤️</p>
+    </div>
   </div>
 
   <script>
     function moveNo() {
       const btn = document.getElementById("noBtn");
-      btn.style.left = Math.random() * 80 + "vw";
-      btn.style.top = Math.random() * 80 + "vh";
+      const box = document.querySelector('.box');
+
+      const boxRect = box.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+
+      const maxX = boxRect.width - btnRect.width - 10;
+      const maxY = boxRect.height - btnRect.height - 10;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
     }
 
     function showSurprise() {
-      document.getElementById("yesBtn").style.display = "none";
-      document.getElementById("noBtn").style.display = "none";
+      document.getElementById("question").style.display = "none";
       document.getElementById("surprise").style.display = "block";
+      startConfetti();
+    }
+
+    function startConfetti() {
+      setInterval(() => {
+        const flower = document.createElement("div");
+        flower.textContent = "🌸";
+        flower.style.position = "fixed";
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.top = "-40px";
+        flower.style.fontSize = "24px";
+        flower.style.pointerEvents = "none";
+        flower.style.animation = "fall 4s linear";
+        document.body.appendChild(flower);
+
+        setTimeout(() => {
+          flower.remove();
+        }, 4000);
+      }, 300);
     }
   </script>
 
